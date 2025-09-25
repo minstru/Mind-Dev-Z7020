@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="ov5640_hdmi_demo" location="F:/temp/int_chenhy/ZynqCoreTest/10_PS_EMIO_NET_TEST/NET_TEST/vitis_ov5460/ov5640_hdmi_demo" platform="F:/temp/int_chenhy/ZynqCoreTest/10_PS_EMIO_NET_TEST/NET_TEST/vitis_ov5460_hdmi/Mind-Z7020/export/Mind-Z7020/Mind-Z7020.xpfm" platformUID="xilinx:::0.0(custom)" systemProject="ov5640_hdmi_demo_system" sysConfig="Mind-Z7020" runtime="C/C++" cpu="standalone_domain" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="bb9bd3ea014a93392b3f6541c994d34a">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.153627629">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.80792773" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="hello_world"/>
+</sdkproject:SdkProject>

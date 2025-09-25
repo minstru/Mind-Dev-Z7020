@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="lvgl_test" location="D:/SVN/int_chenhy/Mind-Example/Mind-Z7020_Vitis_LVGL_Example/vitis/lvgl_test" platform="K:/Mind-Z7020_Vitis_LVGL_Example/vitis/LVGL/export/LVGL/LVGL.xpfm" platformUID="xilinx:::0.0(custom)" systemProject="lvgl_test_system" sysConfig="LVGL" runtime="C/C++" cpu="freertos10_xilinx_domain" cpuInstance="ps7_cortexa9_0" os="freertos10_xilinx" mssSignature="719d1477e5c6bbeaa7c8f96910fdff11">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.564811722">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.155901751" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="empty_application"/>
+</sdkproject:SdkProject>

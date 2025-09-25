@@ -1,0 +1,15 @@
+.svn/
+# vivado ignore folders and files
+.Xil/
+*.cache/
+sim/
+synth/
+*.hw/
+*ip_user_files/
+*.runs/
+*.sim/
+*.log
+*.jou
+
+#vitis ignore folders and files
+.analytics

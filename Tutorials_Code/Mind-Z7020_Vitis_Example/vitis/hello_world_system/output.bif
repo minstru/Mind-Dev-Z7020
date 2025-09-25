@@ -1,0 +1,6 @@
+//arch = zynq; split = false; format = BIN
+the_ROM_image:
+{
+	[bootloader]D:\Mind-Z7020_Vitis_Example\vitis\Mind-Z7020\export\Mind-Z7020\sw\Mind-Z7020\boot\fsbl.elf
+	D:\Mind-Z7020_Vitis_Example\vitis\hello_world\Debug\hello_world.elf
+}
