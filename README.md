@@ -7,6 +7,8 @@ This repository is intended as both a learning resource and a reference collecti
 
 For detailed tutorials, schematics, and hardware documentation, please visit: [www.minstru.com](http://www.minstru.com).
 
+![Mind-Z7020 Board](image.png)
+
 ---
 
 ## 📚 Tutorials and Example Projects
