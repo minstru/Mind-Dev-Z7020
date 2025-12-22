@@ -28,6 +28,8 @@
 
 
 int uart_fd = -1;
+int server_port1 = 12345;
+int server_port2 = 8;
 
 void cli_task(void *param);
 int init_uart(const char *dev_path);
@@ -60,12 +62,12 @@ int main()
     }
 
     // 3. tcp server thread
-    if (pthread_create(&tcp_server_thread1, NULL, server_thread_func, &port1) != 0) {
+    if (pthread_create(&tcp_server_thread1, NULL, server_thread_func, &server_port1) != 0) {
         perror("Failed to create server thread");
         return -1;
     }
 
-    if (pthread_create(&tcp_server_thread2, NULL, server_thread_func, &port2) != 0) {
+    if (pthread_create(&tcp_server_thread2, NULL, server_thread_func, &server_port2) != 0) {
         perror("Failed to create server thread");
         return -1;
     }

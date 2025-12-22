@@ -14,8 +14,8 @@
 
 #define BUFFER_SIZE 1024
 
-static uint8_t host_ip[4] = {192, 168, 3, 232};  // server host IP
-static uint16_t host_port = 5003;             // server host port
+static uint8_t host_ip[4] = {0, 0, 0, 0};  // server host IP
+static uint16_t host_port = 0;             // server host port
 static pthread_mutex_t host_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // set host(server) IP and port
@@ -26,7 +26,10 @@ void set_host_ip_port(int ip[4], uint16_t port)
     }
 
     pthread_mutex_lock(&host_mutex);
-    memcpy(host_ip, ip, sizeof(host_ip));
+    host_ip[0] = ip[0];
+    host_ip[1] = ip[1];
+    host_ip[2] = ip[2];
+    host_ip[3] = ip[3];
     host_port = port;
     pthread_mutex_unlock(&host_mutex);
 }

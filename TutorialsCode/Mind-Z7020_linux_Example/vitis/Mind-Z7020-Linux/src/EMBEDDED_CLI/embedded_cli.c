@@ -12,6 +12,11 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <linux/can.h>
+#include <net/if.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 #include "gpio.h"
 #include "eeprom.h"
@@ -38,6 +43,8 @@ const char COMPILE_TIME[] = __TIME__;
 /* Private variables ---------------------------------------------------------*/
 // CLI_UINT cliBuffer[BYTES_TO_CLI_UINTS(CLI_BUFFER_SIZE)];
 EmbeddedCli *cli = NULL;
+extern int server_port1;
+extern int server_port2;
 
 
 /* Private function prototypes -----------------------------------------------*/
@@ -92,18 +99,18 @@ CliCommandBinding binding[] = {{
     NULL,
     on_get_sensor_data
 }, {
-    "set_time",
-    "Set RTC: year,month,day,hour,minute,second,weekday",
-    true,
-    NULL,
-    on_set_rtc_data
-}, {
-    "get_time",
-    "Get RTC: year,month,day,hour,minute,second,weekday",
-    true,
-    NULL,
-    on_get_rtc_data
-}, {
+//     "set_time",
+//     "Set RTC: year,month,day,hour,minute,second,weekday",
+//     true,
+//     NULL,
+//     on_set_rtc_data
+// }, {
+//     "get_time",
+//     "Get RTC: year,month,day,hour,minute,second,weekday",
+//     true,
+//     NULL,
+//     on_get_rtc_data
+// }, {
     "write_eeprom_data",
     "Write EEPROM: <addr>,<data1>,[data2 ...]",
     true,
@@ -271,7 +278,7 @@ void on_read_xadc_data(EmbeddedCli *cli, char *args, void *context)
 void on_self_test(EmbeddedCli *cli, char *args, void *context)
 {
     on_get_version(cli, args, context);
-    test_rtc(cli, i2c0_dev);
+    // test_rtc(cli, i2c0_dev);
     test_shtc3(cli, i2c0_dev);
     test_eeprom(cli, i2c0_dev);
     test_can(cli);
@@ -796,7 +803,60 @@ void on_get_version(EmbeddedCli *cli, char *args, void *context)
 //as server
 void on_get_local_ip(EmbeddedCli *cli, char *args, void *context)
 {
-    embeddedCliPrint(cli, "IP: 192.168.3.193 PORT1:12345 , PORT2:8 ");
+    int sockfd;
+    struct ifreq ifr;
+    struct sockaddr_in *sin;
+    char ip_eth0[INET_ADDRSTRLEN] = "Not found";
+    char ip_eth1[INET_ADDRSTRLEN] = "Not found";
+    char msg[256];
+    bool found_eth0 = false;
+    bool found_eth1 = false;
+
+    // Create a socket for ioctl
+    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sockfd < 0) {
+        embeddedCliPrint(cli, "Failed to create socket");
+        return;
+    }
+
+    // Get eth0 IP address
+    memset(&ifr, 0, sizeof(ifr));
+    strncpy(ifr.ifr_name, "eth0", IFNAMSIZ - 1);
+    if (ioctl(sockfd, SIOCGIFADDR, &ifr) == 0) {
+        sin = (struct sockaddr_in *)&ifr.ifr_addr;
+        if (inet_ntop(AF_INET, &(sin->sin_addr), ip_eth0, INET_ADDRSTRLEN) != NULL) {
+            found_eth0 = true;
+        }
+    }
+
+    // Get eth1 IP address
+    memset(&ifr, 0, sizeof(ifr));
+    strncpy(ifr.ifr_name, "eth1", IFNAMSIZ - 1);
+    if (ioctl(sockfd, SIOCGIFADDR, &ifr) == 0) {
+        sin = (struct sockaddr_in *)&ifr.ifr_addr;
+        if (inet_ntop(AF_INET, &(sin->sin_addr), ip_eth1, INET_ADDRSTRLEN) != NULL) {
+            found_eth1 = true;
+        }
+    }
+
+    // Close socket
+    close(sockfd);
+
+    // Format and print the result
+    if (found_eth0 && found_eth1) {
+        snprintf(msg, sizeof(msg), "eth0 IP: %s, eth1 IP: %s PORT1:%d , PORT2:%d", 
+                 ip_eth0, ip_eth1, server_port1, server_port2);
+    } else if (found_eth0) {
+        snprintf(msg, sizeof(msg), "eth0 IP: %s, eth1: %s PORT1:%d , PORT2:%d", 
+                 ip_eth0, ip_eth1, server_port1, server_port2);
+    } else if (found_eth1) {
+        snprintf(msg, sizeof(msg), "eth0: %s, eth1 IP: %s PORT1:%d , PORT2:%d", 
+                 ip_eth0, ip_eth1, server_port1, server_port2);
+    } else {
+        snprintf(msg, sizeof(msg), "eth0: %s, eth1: %s PORT1:%d , PORT2:%d", 
+                 ip_eth0, ip_eth1, server_port1, server_port2);
+    }
+    embeddedCliPrint(cli, msg);
 }
 
 
